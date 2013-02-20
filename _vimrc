@@ -46,27 +46,26 @@ Bundle 'altercation/vim-colors-solarized'
 Bundle 'Townk/vim-autoclose'
 
 " Git integration
-" Fugitive
 Bundle 'tpope/vim-fugitive'
+Bundle 'tpope/vim-git'
+Bundle 'sjl/gundo.vim'
 
 " Search tool
 Bundle 'mileszs/ack.vim'
 
 " Python suite
-Bundle 'Python-Syntax'
-Bundle 'Python-mode'
+" Bundle 'Python-Syntax'
 Bundle 'pep8'
+Bundle 'nose.vim'
 Bundle 'pyflakes.vim'
+Bundle 'fs111/pydoc.vim'
 
-" Python configuration
-" pep8
-let g:pep8_map='<leader>8'
+" Syntax
+Bundle 'Syntastic'
 
-set foldmethod=indent
-set foldlevel=2
-set foldnestmax=4
-
-
+" Auto complete
+Bundle 'snipMate'
+Bundle 'AutoComplPop'
 
 " Installing plugins the first time
 if iCanHazVundle == 0
@@ -75,10 +74,73 @@ if iCanHazVundle == 0
     :BundleInstall
 endif
 
-" allow plugins by file type
-syntax on
-filetype plugin on
-filetype indent on
+" ==========================================================
+" Basic Settings
+" ==========================================================
+filetype on                   " try to detect filetypes
+syntax on                     " syntax highlighing
+filetype plugin indent on     " enable loading indent file for filetype
+set number                    " Display line numbers
+set numberwidth=1             " using only 1 column (and 1 space) while possible
+set background=dark           " We are using dark background in vim
+set title                     " show title in console title bar
+set wildmenu                  " Menu completion in command mode on <Tab>
+set wildmode=full             " <Tab> cycles between all matching choices.
+
+" don't bell or blink
+set noerrorbells
+set vb t_vb=
+
+" Ignore these files when completing
+set wildignore+=*.o,*.obj,.git,*.pyc
+set wildignore+=eggs/**
+set wildignore+=*.egg-info/**
+
+
+""" Insert completion
+" don't select first item, follow typing in autocomplete
+set completeopt=menuone,longest,preview
+set pumheight=6             " Keep a small completion window
+
+
+""" Moving Around/Editing
+set cursorline              " have a line indicate the cursor location
+set ruler                   " show the cursor position all the time
+set nostartofline           " Avoid moving cursor to BOL when jumping around
+set virtualedit=block       " Let cursor move past the last char in <C-v> mode
+set scrolloff=3             " Keep 3 context lines above and below the cursor
+set backspace=2             " Allow backspacing over autoindent, EOL, and BOL
+set showmatch               " Briefly jump to a paren once it's balanced
+set nowrap                  " don't wrap text
+set linebreak               " don't wrap textin the middle of a word
+set autoindent              " always set autoindenting on
+set smartindent             " use smart indent if there is no indent file
+set tabstop=4               " <tab> inserts 4 spaces 
+set shiftwidth=4            " but an indent level is 2 spaces wide.
+set softtabstop=4           " <BS> over an autoindent deletes both spaces.
+set expandtab               " Use spaces, not tabs, for autoindent/tab key.
+set shiftround              " rounds indent to a multiple of shiftwidth
+set matchpairs+=<:>         " show matching <> (html mainly) as well
+set foldmethod=indent       " allow us to fold on indents
+set foldlevel=2
+set foldnestmax=4
+
+
+" don't outdent hashes
+inoremap # #
+
+" close preview window automatically when we move around
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+"""" Reading/Writing
+set noautowrite             " Never write a file unless I request it.
+set noautowriteall          " NEVER.
+set noautoread              " Don't automatically re-read changed files.
+set modeline                " Allow vim options to be embedded in files;
+set modelines=5             " they must be within the first or last 5 lines.
+set ffs=unix,dos,mac        " Try recognizing dos, unix, and mac line endings.
+
 
 " tabs and spaces handling
 set expandtab
@@ -91,26 +153,35 @@ autocmd FileType html setlocal shiftwidth=2 tabstop=2
 autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2
 
-" always show status bar
-set ls=2
+" displays tabs with :set list & displays when a line runs off-screen
+set listchars=tab:>-,trail:-,precedes:<,extends:>
+set list
+set colorcolumn=79
 
-" incremental search
-set incsearch
-
-" highlighted search results
-set hlsearch
-
-" line numbers
-set nu
+""" Searching and Patterns
+set ignorecase              " Default to using case insensitive searches,
+set smartcase               " unless uppercase letters are used in the regex.
+set smarttab                " Handle tabs more intelligently 
+set hlsearch                " Highlight searches by default.
+set incsearch               " Incrementally search while typing a /regex
 
 " NERDTree (better file browser) toggle
 map <F3> :NERDTreeToggle<CR>
+map <leader>nt :NERDTreeToggle<CR>
 " toggle Tagbar display
 map <F4> :TagbarToggle<CR>
+nmap <leader>tb :TagbarToggle<CR>
 " autofocus on Tagbar open
 let g:tagbar_autofocus = 1
 " Ack searching
-nmap <leader>a <Esc>:Ack!
+nmap <leader>as <Esc>:Ack!
+
+" Spell checking
+map <leader>ss :setlocal spell!<cr>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
 
 " tab navigation
 map tn :tabn<CR>
@@ -149,9 +220,21 @@ ca w!! w !sudo tee "%"
 map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " colorscheme
-set background=dark
-set cursorline
 set t_Co=256
 
-let g:solarized_termcolors=16
-set background=dark
+" ==========================================================
+" Python
+" ==========================================================
+"au BufReadt *.py compiler nose
+au FileType python set omnifunc=pythoncomplete#Complete
+au FileType python setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4 smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+au FileType coffee setlocal expandtab shiftwidth=4 tabstop=8 softtabstop=4 smartindent cinwords=if,elif,else,for,while,try,except,finally,def,class,with
+au BufRead *.py set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
+let g:SuperTabDefaultCompletionType = "context"
+" Don't let pyflakes use the quickfix window
+let g:pyflakes_use_quickfix = 0
+
+" pep8
+let g:pep8_map='<leader>8'
+
+
