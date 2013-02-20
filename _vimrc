@@ -3,7 +3,8 @@
 " Source: https://github.com/yanchaozhang/cfgFile
 "
 " no vi-compatible
-set nocompatible
+set nocompatible              " Don't be compatible with vi
+let mapleader=","             " change the leader to be a comma vs slash
 filetype off
 
 " Setting up Vundle - the vim plugin bundler
@@ -26,25 +27,46 @@ Bundle 'gmarik/vundle'
 
 " Better file browser
 Bundle 'scrooloose/nerdtree'
-" Code commenter
-Bundle 'scrooloose/nerdcommenter'
 " Class/module browser
 Bundle 'majutsushi/tagbar'
-" search tool
-Bundle 'mileszs/ack.vim'
+
+" Better editting
+Bundle 'tpope/vim-surround'
+Bundle 'tpope/vim-repeat'
+Bundle 'godlygeek/tabular'
+Bundle 'matchit.zip'
+
+" Code commenter
+Bundle 'scrooloose/nerdcommenter'
 " Consoles as buffers
 Bundle 'rosenfeld/conque-term'
-" Surround
-Bundle 'tpope/vim-surround'
 " solarized
-Bundle 'skwp/vim-colors-solarized'
+Bundle 'altercation/vim-colors-solarized'
 " Autoclose
 Bundle 'Townk/vim-autoclose'
 
-" Python code checker
+" Git integration
+" Fugitive
+Bundle 'tpope/vim-fugitive'
+
+" Search tool
+Bundle 'mileszs/ack.vim'
+
+" Python suite
+Bundle 'Python-Syntax'
+Bundle 'Python-mode'
+Bundle 'pep8'
 Bundle 'pyflakes.vim'
-" XML/HTML tags navigation
-Bundle 'matchit.zip'
+
+" Python configuration
+" pep8
+let g:pep8_map='<leader>8'
+
+set foldmethod=indent
+set foldlevel=2
+set foldnestmax=4
+
+
 
 " Installing plugins the first time
 if iCanHazVundle == 0
@@ -54,6 +76,7 @@ if iCanHazVundle == 0
 endif
 
 " allow plugins by file type
+syntax on
 filetype plugin on
 filetype indent on
 
@@ -80,19 +103,24 @@ set hlsearch
 " line numbers
 set nu
 
+" NERDTree (better file browser) toggle
+map <F3> :NERDTreeToggle<CR>
 " toggle Tagbar display
 map <F4> :TagbarToggle<CR>
 " autofocus on Tagbar open
 let g:tagbar_autofocus = 1
-
-" NERDTree (better file browser) toggle
-map <F3> :NERDTreeToggle<CR>
+" Ack searching
+nmap <leader>a <Esc>:Ack!
 
 " tab navigation
 map tn :tabn<CR>
 map tp :tabp<CR>
 map tm :tabm 
 map tt :tabnew 
+
+" quickfix navigation
+nmap qn :cn<CR>
+nmap qp :cp<CR>
 
 " navigate windows with meta+arrows
 map <M-Right> <c-w>l
@@ -117,18 +145,13 @@ map <F2> :TaskList<CR>
 " save as sudo
 ca w!! w !sudo tee "%"
 
-" use 256 colors when possible
-if &term =~? 'mlterm\|xterm\|screen-256'
-	let &t_Co = 256
-    " color
-    colorscheme solarized
-else
-    " color
-    colorscheme delek
-endif
+" Reload Vimrc
+map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
-" colors for gvim
-if has('gui_running')
-    colorscheme wombat
-endif
+" colorscheme
+set background=dark
+set cursorline
+set t_Co=256
 
+let g:solarized_termcolors=16
+set background=dark
