@@ -1,0 +1,9 @@
+[http]
+	proxy = proxy.vmware.com:3128
+[https]
+	proxy = proxy.vmware.com:3128
+[core]
+	gitproxy = gitproxy
+[user]
+	email = yanchao.vmware@gmail.com
+	name = Yanchao Zhang
