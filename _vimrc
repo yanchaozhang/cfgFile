@@ -33,6 +33,7 @@ Bundle 'majutsushi/tagbar'
 " Better editting
 Bundle 'tpope/vim-surround'
 Bundle 'tpope/vim-repeat'
+Bundle 'tpope/vim-unimpaired'
 Bundle 'godlygeek/tabular'
 Bundle 'matchit.zip'
 
@@ -48,6 +49,7 @@ Bundle 'Townk/vim-autoclose'
 " Git integration
 Bundle 'tpope/vim-fugitive'
 Bundle 'tpope/vim-git'
+Bundle 'ghewgill/vim-scmdiff'
 Bundle 'sjl/gundo.vim'
 
 " Search tool
@@ -61,7 +63,7 @@ Bundle 'pyflakes.vim'
 Bundle 'fs111/pydoc.vim'
 
 " Syntax
-Bundle 'Syntastic'
+"Bundle 'Syntastic'
 
 " Auto complete
 Bundle 'snipMate'
@@ -168,20 +170,22 @@ set incsearch               " Incrementally search while typing a /regex
 " NERDTree (better file browser) toggle
 map <F3> :NERDTreeToggle<CR>
 map <leader>nt :NERDTreeToggle<CR>
+
 " toggle Tagbar display
+"let g:tagbar_ctags_bin = '/usr/bin/ctags'
+let g:tagbar_right=1
+let g:tagbar_width=30
+let g:tagbar_autofocus = 1
+let g:tagbar_sort = 0
+let g:tagbar_compact = 1
+let g:tagbar_usearrows = 1
 map <F4> :TagbarToggle<CR>
 nmap <leader>tb :TagbarToggle<CR>
 " autofocus on Tagbar open
 let g:tagbar_autofocus = 1
+
 " Ack searching
 nmap <leader>as <Esc>:Ack!
-
-" Spell checking
-map <leader>ss :setlocal spell!<cr>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
 
 " tab navigation
 map tn :tabn<CR>
@@ -189,9 +193,12 @@ map tp :tabp<CR>
 map tm :tabm 
 map tt :tabnew 
 
-" quickfix navigation
-nmap qn :cn<CR>
-nmap qp :cp<CR>
+" unimpaired plugin, quickfix, spell checking, etc
+" ]q :cn<CR>
+" [q :cp<CR>
+" Spell checking default move ]s, [s
+map <leader>sa zg
+map <leader>s? z=
 
 " navigate windows with meta+arrows
 map <M-Right> <c-w>l
@@ -221,6 +228,13 @@ map <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimr
 
 " colorscheme
 set t_Co=256
+let g:solarized_termtrans=1
+let g:solarized_termcolors=256
+let g:solarized_contrast="high"
+let g:solarized_visibility="high"
+"colorscheme torte
+colorscheme solarized
+
 
 " ==========================================================
 " Python
@@ -237,4 +251,10 @@ let g:pyflakes_use_quickfix = 0
 " pep8
 let g:pep8_map='<leader>8'
 
+" syntastic for python
+" let g:syntastic_python_checkers=['pep8']
+
+" pydoc
+let g:pydoc_cmd='python -m pydoc'
+let g:pydoc_open_cmd='vsplit'
 
