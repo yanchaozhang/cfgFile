@@ -63,7 +63,7 @@ Bundle 'pyflakes.vim'
 Bundle 'fs111/pydoc.vim'
 
 " Syntax
-"Bundle 'Syntastic'
+Bundle 'Syntastic'
 
 " Auto complete
 Bundle 'snipMate'
@@ -232,9 +232,15 @@ let g:solarized_termtrans=1
 let g:solarized_termcolors=256
 let g:solarized_contrast="high"
 let g:solarized_visibility="high"
-"colorscheme torte
-colorscheme solarized
+colorscheme default
+"colorscheme solarized
 
+" syntastic checking
+let g:syntastic_echo_current_error=1
+let g:syntastic_auto_jump=1
+let g:syntastic_auto_loc_list=1
+" Check manually
+noremap <leader>sc :SyntasticCheck<cr>
 
 " ==========================================================
 " Python
@@ -250,9 +256,6 @@ let g:pyflakes_use_quickfix = 0
 
 " pep8
 let g:pep8_map='<leader>8'
-
-" syntastic for python
-" let g:syntastic_python_checkers=['pep8']
 
 " pydoc
 let g:pydoc_cmd='python -m pydoc'
