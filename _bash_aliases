@@ -1,8 +1,15 @@
+# for shell
+export TERM='xterm-256color'
 export XTERM=256color
+export EDITOR=vim
+
+# for go
+export GOROOT=$HOME/go
+export GOARCH=386
+export GOBIN=$GOROOT/bin
+export GOOS=linux
 export http_proxy=proxy.vmware.com:3128
 export P4CONFIG=.p4config
-export PPWD=tgb.1234
-export CPWD='ca$hc0w'
 
 # for search
 alias gr='grep -i -R'
