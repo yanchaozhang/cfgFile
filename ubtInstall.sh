@@ -20,11 +20,15 @@ firstUpdate() {
 installEmacs () {
     sudo apt-add-repository ppa:cassou/emacs
     sudo apt-get update -y
-    sudo apt-get install emacs24 emacs24-el emacs24-common-non-dfsg
+    sudo apt-get install -y emacs24 emacs24-el emacs24-common-non-dfsg
 }
 
 installJava () {
     sudo apt-add-repository ppa:webupd8team/java
-    sudo apt-get update
+    sudo apt-get update -y
     sudo apt-get install -y oracle-java7-installer 
 }
+
+firstUpdate
+installEmacs
+installJava
