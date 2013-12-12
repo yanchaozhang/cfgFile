@@ -29,6 +29,12 @@ installJava () {
     sudo apt-get install -y oracle-java7-installer 
 }
 
+installLein () {
+    wget https://raw.github.com/technomancy/leiningen/stable/bin/lein -P ~/.
+    chmod 755 ~/lein
+    sudo mv ~/lein /usr/bin/.
+}
 firstUpdate
 installEmacs
 installJava
+installLein
