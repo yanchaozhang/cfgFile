@@ -18,13 +18,13 @@ firstUpdate() {
 }
 
 installEmacs () {
-    sudo apt-add-repository ppa:cassou/emacs
+    sudo apt-add-repository -y ppa:cassou/emacs
     sudo apt-get update -y
     sudo apt-get install -y emacs24 emacs24-el emacs24-common-non-dfsg
 }
 
 installJava () {
-    sudo apt-add-repository ppa:webupd8team/java
+    sudo apt-add-repository -y ppa:webupd8team/java
     sudo apt-get update -y
     sudo apt-get install -y oracle-java7-installer 
 }
@@ -34,7 +34,21 @@ installLein () {
     chmod 755 ~/lein
     sudo mv ~/lein /usr/bin/.
 }
-firstUpdate
-installEmacs
-installJava
-installLein
+
+installR () {
+    sudo apt-add-repository -y ppa:marutter/rrutter
+    sudo apt-get update -y
+    sudo apt-get install -y r-base r-base-dev
+}
+
+installGo () {
+    sudo apt-get install -y python-software-properties  # 12.04
+    sudo add-apt-repository -y ppa:duh/golang
+    sudo apt-get update -y
+    sudo apt-get install -y golang
+}
+#firstUpdate
+#installEmacs
+#installJava
+#installLein
+installGo
