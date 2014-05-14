@@ -47,8 +47,13 @@ installGo () {
     sudo apt-get update -y
     sudo apt-get install -y golang
 }
+installNvidia-Driver () {
+    sudo apt-add-repository -y ppa:ubuntu-x-swat/x-updates
+    sudo apt-get install -y nvidia-current
+}
 #firstUpdate
 #installEmacs
 #installJava
 #installLein
-installGo
+#installGo
+installR
